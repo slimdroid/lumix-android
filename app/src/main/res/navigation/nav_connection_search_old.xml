@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_connection_search_old"
+    app:startDestination="@id/searchDeviceInNetworkFragment">
+
+    <fragment
+        android:id="@+id/searchDeviceInNetworkFragment"
+        android:name="com.slimdroid.lumix.ui.connection.search.SearchDeviceInNetworkFragment"
+        android:label="Search device in network"
+        tools:layout="@layout/fragment_search_device_in_network" />
+</navigation>

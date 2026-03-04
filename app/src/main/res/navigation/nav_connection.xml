@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_connection"
+    app:startDestination="@id/connectionMethodFragment">
+
+    <fragment
+        android:id="@+id/connectionMethodFragment"
+        android:name="com.slimdroid.lumix.ui.connection.method.ConnectionMethodFragment"
+        android:label="New device"
+        tools:layout="@layout/fragment_connection_method">
+
+        <action
+            android:id="@+id/action_connectionMethodFragment_to_nav_connection_add_new"
+            app:destination="@id/nav_connection_add_new" />
+        <action
+            android:id="@+id/action_connectionMethodFragment_to_nav_connection_directly"
+            app:destination="@id/nav_connection_directly" />
+        <action
+            android:id="@+id/action_connectionMethodFragment_to_nav_connection_search_old"
+            app:destination="@id/nav_connection_search_old" />
+        <action
+            android:id="@+id/action_connectionMethodFragment_to_nav_connection_smart_config"
+            app:destination="@id/nav_connection_smart_config" />
+    </fragment>
+
+    <include app:graph="@navigation/nav_connection_add_new" />
+    <include app:graph="@navigation/nav_connection_directly" />
+    <include app:graph="@navigation/nav_connection_search_old" />
+    <include app:graph="@navigation/nav_connection_smart_config" />
+
+</navigation>

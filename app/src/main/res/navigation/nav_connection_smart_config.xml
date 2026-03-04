@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_connection_smart_config"
+    app:startDestination="@id/smartConfigFragment">
+
+    <fragment
+        android:id="@+id/smartConfigFragment"
+        android:name="com.slimdroid.lumix.ui.connection.smart_config.SmartConfigFragment"
+        android:label="Smart config"
+        tools:layout="@layout/fragment_smart_config" />
+</navigation>

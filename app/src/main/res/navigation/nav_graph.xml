@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/deviceListFragment">
+
+    <fragment
+        android:id="@+id/deviceListFragment"
+        android:name="com.slimdroid.lumix.ui.device_list.DeviceListFragment"
+        android:label="Devices"
+        tools:layout="@layout/fragment_device_list">
+
+        <action
+            android:id="@+id/action_deviceListFragment_to_deviceFragment"
+            app:destination="@id/deviceFragment"
+            app:enterAnim="@anim/slide_up"
+            app:popExitAnim="@anim/slide_down" />
+        <action
+            android:id="@+id/action_deviceListFragment_to_connectionFragment2"
+            app:destination="@id/connectionFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/deviceFragment"
+        android:name="com.slimdroid.lumix.ui.device.DeviceFragment"
+        tools:layout="@layout/fragment_device" />
+
+    <fragment
+        android:id="@+id/connectionFragment"
+        android:name="com.slimdroid.lumix.ui.connection.ConnectionFragment"
+        tools:layout="@layout/fragment_connection" />
+</navigation>

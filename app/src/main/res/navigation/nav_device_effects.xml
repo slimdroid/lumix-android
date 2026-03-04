@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_device_effects"
+    app:startDestination="@id/deviceEffectsFragment">
+
+    <fragment
+        android:id="@+id/deviceEffectsFragment"
+        android:name="com.slimdroid.lumix.ui.device.effects.DeviceEffectsFragment"
+        android:label="Effects"
+        tools:layout="@layout/fragment_device_effects" />
+</navigation>

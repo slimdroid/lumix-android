@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_connection_add_new"
+    app:startDestination="@id/bluetoothScannerFragment">
+
+    <fragment
+        android:id="@+id/bluetoothScannerFragment"
+        android:name="com.slimdroid.lumix.ui.connection.scanner.BluetoothScannerFragment"
+        android:label="@string/device_scanner_title"
+        tools:layout="@layout/fragment_device_scanner">
+        <action
+            android:id="@+id/action_deviceScannerFragment_to_bluetoothConnectionFragment"
+            app:destination="@id/bluetoothConnectionFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/bluetoothConnectionFragment"
+        android:name="com.slimdroid.lumix.ui.connection.bluetooth.BluetoothConnectionFragment"
+        android:label="Device control"
+        tools:layout="@layout/fragment_bluetooth_connection">
+        <action
+            android:id="@+id/action_deviceControlFragment_to_wifiPasswordFragment"
+            app:destination="@id/wifiPasswordFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/wifiPasswordFragment"
+        android:name="com.slimdroid.lumix.ui.connection.password.WifiPasswordFragment"
+        android:label="Wi-Fi Password"
+        tools:layout="@layout/fragment_wifi_password">
+        <action
+            android:id="@+id/action_wifiPasswordFragment_to_wifiScanningFragment"
+            app:destination="@id/wifiScanningFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/wifiScanningFragment"
+        android:name="com.slimdroid.lumix.ui.connection.wifi.WifiScanningFragment"
+        android:label="@string/wifi_scanning_title"
+        tools:layout="@layout/fragment_wifi_scanning" />
+
+</navigation>
