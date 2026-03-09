@@ -21,3 +21,4 @@ include(
     ":app",
     ":scanner"
 )
+include(":core:data")
