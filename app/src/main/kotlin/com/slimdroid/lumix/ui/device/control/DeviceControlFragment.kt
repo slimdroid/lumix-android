@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.slimdroid.lumix.R
 import com.slimdroid.lumix.databinding.FragmentDeviceControlBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DeviceControlFragment : Fragment(R.layout.fragment_device_control) {
 
     private val viewModel: DeviceControlViewModel by viewModels()
@@ -31,7 +33,22 @@ class DeviceControlFragment : Fragment(R.layout.fragment_device_control) {
 
     private fun setListeners() {
         binding.apply {
-
+            btnNext.setOnClickListener {
+                viewModel.setNextEffect()
+            }
+            btnPrevious.setOnClickListener {
+                viewModel.setPreviousEffect()
+            }
+            btnLedCount.setOnClickListener {
+                val ledCount = editTextLedCount.text.toString()
+                viewModel.setLedCount(ledCount)
+            }
+            switchPower.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.powerToggle(isChecked)
+            }
+            sliderBrightness.addOnChangeListener { _, value, _ ->
+                viewModel.setBrightness(value.toInt())
+            }
         }
     }
 

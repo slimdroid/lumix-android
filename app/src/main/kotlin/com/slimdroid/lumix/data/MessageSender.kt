@@ -15,7 +15,8 @@ object MessageSender : AutoCloseable {
 
     private const val TAG = "MessageSender_UDP"
     private const val BROADCAST_IP = "255.255.255.255"
-    private const val BROADCAST_PORT = 4211
+    private const val BROADCAST_PORT = 4210
+    private const val COMMAND_PREFIX = "Cmd"
 
     private val selectorManager = SelectorManager(Dispatchers.IO)
     private var inSocket: BoundDatagramSocket? = null
@@ -43,9 +44,10 @@ object MessageSender : AutoCloseable {
             return
         }
 
+        val command = "$COMMAND_PREFIX$message"
         try {
             val datagram = Datagram(
-                packet = buildPacket { writeText(message) },
+                packet = buildPacket { writeText(command) },
                 address = InetSocketAddress(ip, BROADCAST_PORT)
             )
             socket.outgoing.send(datagram)

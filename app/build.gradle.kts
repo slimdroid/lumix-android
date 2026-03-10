@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.composeCompiler)
+    alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
 }
 
@@ -42,6 +43,7 @@ android {
 
 dependencies {
     implementation(projects.scanner)
+    implementation(projects.core.data)
 
     // MDC
     implementation(libs.material)
@@ -85,6 +87,12 @@ dependencies {
 
     // Napier
     implementation(libs.napier)
+
+    // Hilt
+    implementation(libs.androidx.hilt.lifecycle.viewmodel)
+    ksp(libs.androidx.hilt.compiler)
+    implementation(libs.dagger.hilt)
+    ksp(libs.dagger.hilt.compiler)
 
     // ESP Touch
     implementation(libs.esptouch)

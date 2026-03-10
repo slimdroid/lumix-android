@@ -12,7 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import com.slimdroid.lumix.R
 import com.slimdroid.lumix.databinding.FragmentDeviceEffectsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DeviceEffectsFragment : Fragment(R.layout.fragment_device_effects) {
 
     private val viewModel: DeviceEffectsViewModel by viewModels()

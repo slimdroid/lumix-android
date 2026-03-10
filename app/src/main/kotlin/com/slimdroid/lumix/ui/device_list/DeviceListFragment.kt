@@ -13,10 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.slimdroid.lumix.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DeviceListFragment : Fragment() {
 
-    private val viewModel: DeviceListViewModel by viewModels { DeviceListViewModelFactory() }
+    private val viewModel: DeviceListViewModel by viewModels ()
 
     override fun onCreateView(
         inflater: LayoutInflater,

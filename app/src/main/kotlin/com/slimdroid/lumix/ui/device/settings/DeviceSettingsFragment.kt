@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.slimdroid.lumix.R
 import com.slimdroid.lumix.databinding.FragmentDeviceSettingsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DeviceSettingsFragment : Fragment(R.layout.fragment_device_settings) {
 
     private val viewModel: DeviceSettingsViewModel by viewModels()

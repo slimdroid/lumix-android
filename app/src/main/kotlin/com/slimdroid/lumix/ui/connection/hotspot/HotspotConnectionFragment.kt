@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.slimdroid.lumix.R
 import com.slimdroid.lumix.databinding.FragmentHotspotConnectionBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HotspotConnectionFragment : Fragment(R.layout.fragment_hotspot_connection) {
 
     private val viewModel: HotspotConnectionViewModel by viewModels()

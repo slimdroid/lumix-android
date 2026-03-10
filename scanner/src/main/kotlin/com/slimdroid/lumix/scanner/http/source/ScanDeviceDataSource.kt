@@ -4,7 +4,6 @@ import com.slimdroid.lumix.scanner.dto.ScanDeviceDto
 import com.slimdroid.lumix.scanner.http.ScannerClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.utils.io.core.use
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

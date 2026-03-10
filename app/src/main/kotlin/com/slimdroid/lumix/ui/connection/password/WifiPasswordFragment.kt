@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import com.slimdroid.lumix.R
 import com.slimdroid.lumix.databinding.FragmentWifiPasswordBinding
 import com.slimdroid.lumix.ui.connection.bluetooth.BluetoothConnectionFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class WifiPasswordFragment : Fragment(R.layout.fragment_wifi_password) {
 
     private val viewModel: WifiPasswordViewModel by viewModels {

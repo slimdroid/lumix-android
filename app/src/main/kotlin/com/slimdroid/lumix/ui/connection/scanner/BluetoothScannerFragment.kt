@@ -29,7 +29,9 @@ import com.slimdroid.lumix.ui.connection.bluetooth.BluetoothConnectionFragment
 import com.slimdroid.lumix.utils.PermissionStatus
 import com.slimdroid.lumix.utils.ResUtils
 import com.slimdroid.lumix.utils.requestPermissionLauncher
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BluetoothScannerFragment : Fragment(R.layout.fragment_device_scanner) {
 
     private val viewModel: DeviceScannerViewModel by viewModels {

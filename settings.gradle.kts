@@ -21,4 +21,8 @@ include(
     ":app",
     ":scanner"
 )
-include(":core:data")
+include(
+    ":core:database",
+    ":core:data",
+    ":core:model"
+)

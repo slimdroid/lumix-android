@@ -12,7 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import com.slimdroid.lumix.R
 import com.slimdroid.lumix.databinding.FragmentSmartConfigBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SmartConfigFragment : Fragment(R.layout.fragment_smart_config) {
 
     private val viewModel: SmartConfigViewModel by viewModels()

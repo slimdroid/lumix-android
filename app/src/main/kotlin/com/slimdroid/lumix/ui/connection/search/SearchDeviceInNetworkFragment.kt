@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.slimdroid.lumix.R
 import com.slimdroid.lumix.databinding.FragmentSearchDeviceInNetworkBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchDeviceInNetworkFragment : Fragment(R.layout.fragment_search_device_in_network) {
 
     private val viewModel: SearchDeviceInNetworkViewModel by viewModels()

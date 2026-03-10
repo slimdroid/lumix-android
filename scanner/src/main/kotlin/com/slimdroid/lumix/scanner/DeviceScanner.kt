@@ -19,26 +19,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.net.NetworkInterface
-import kotlin.collections.map
 
-class DeviceScanner(private vararg val deviceTypes: DeviceType) {
+private const val DEFAULT_SEARCHING_TIME = 5_000L  // in milliseconds
 
-    companion object {
-        private const val TAG = "Scanner"
-        private const val DEFAULT_SEARCHING_TIME = 5_000L //30_000L  // in milliseconds
-    }
-
-    private val job = Job()
-    private val coroutineScope = CoroutineScope(Dispatchers.IO + job)
-    private val stopper: suspend (timeout: Long) -> Unit = { timeout ->
-        delay(timeout)
-        stopScan()
-    }
-    private val mutex = Mutex()
-    private val deviceSet: MutableSet<Device> = mutableSetOf()
-    private val scannerCollection: MutableList<Scanner> = mutableListOf()
-    private val additionalScanners: MutableList<Scanner> = mutableListOf()
-    private var useAdditionalScannersOnly: Boolean = false
+interface DeviceScanner {
 
     /**
      * Use case:
@@ -59,6 +43,28 @@ class DeviceScanner(private vararg val deviceTypes: DeviceType) {
     fun startScanFlow(
         timeout: Long = DEFAULT_SEARCHING_TIME,
         searchServiceMode: Boolean = false,
+    ): Flow<List<Device>>
+
+    fun stopScan()
+
+    suspend fun scanDeviceByIp(deviceIp: String): Result<Device>
+}
+
+class DeviceScannerImpl(private vararg val deviceTypes: DeviceType) : DeviceScanner {
+
+    private val job = Job()
+    private val coroutineScope = CoroutineScope(Dispatchers.IO + job)
+    private val stopper: suspend (timeout: Long) -> Unit = { timeout ->
+        delay(timeout)
+        stopScan()
+    }
+    private val mutex = Mutex()
+    private val deviceSet: MutableSet<Device> = mutableSetOf()
+    private val scannerCollection: MutableList<Scanner> = mutableListOf()
+
+    override fun startScanFlow(
+        timeout: Long,
+        searchServiceMode: Boolean,
     ): Flow<List<Device>> = getScanners(searchServiceMode)
         .map { it.startScan() }
         .also {
@@ -79,19 +85,14 @@ class DeviceScanner(private vararg val deviceTypes: DeviceType) {
             Napier.i("result: search completed", tag = TAG)
         }.flowOn(Dispatchers.IO)
 
-    fun stopScan() {
+    override fun stopScan() {
         job.cancelChildren()
 
         scannerCollection.forEach { it.stopScan() }
         scannerCollection.clear()
     }
 
-    fun addAdditionalScanner(scanner: Scanner, useThisOnly: Boolean = false) {
-        additionalScanners.add(scanner)
-        useAdditionalScannersOnly = useThisOnly
-    }
-
-    suspend fun scanDeviceByIp(deviceIp: String): Result<Device> {
+    override suspend fun scanDeviceByIp(deviceIp: String): Result<Device> {
         val result = HttpScanner.checkDevice(deviceIp)
         return if (result.isSuccess) {
             val device: Device = result.getOrThrow()
@@ -109,11 +110,6 @@ class DeviceScanner(private vararg val deviceTypes: DeviceType) {
     private fun getScanners(isServiceMode: Boolean): List<Scanner> = scannerCollection.apply {
         if (isNotEmpty()) return@apply
 
-        if (useAdditionalScannersOnly && additionalScanners.isNotEmpty()) {
-            addAll(additionalScanners)
-            return@apply
-        }
-
         if (isServiceMode) {
             add(HttpServiceModeScanner())
             return@apply
@@ -125,6 +121,10 @@ class DeviceScanner(private vararg val deviceTypes: DeviceType) {
         } else {
             add(UdpBroadcastScanner())
         }
+    }
+
+    companion object {
+        private const val TAG = "Scanner"
     }
 }
 

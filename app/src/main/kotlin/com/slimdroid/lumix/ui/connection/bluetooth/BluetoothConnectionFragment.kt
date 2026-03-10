@@ -9,7 +9,9 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.slimdroid.lumix.R
 import com.slimdroid.lumix.databinding.FragmentBluetoothConnectionBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BluetoothConnectionFragment : Fragment(R.layout.fragment_bluetooth_connection) {
 
     private val viewModel: BluetoothConnectionViewModel by viewModels {

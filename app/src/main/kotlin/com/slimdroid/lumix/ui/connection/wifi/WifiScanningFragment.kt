@@ -19,7 +19,9 @@ import com.slimdroid.lumix.databinding.FragmentWifiScanningBinding
 import com.slimdroid.lumix.utils.PermissionStatus
 import com.slimdroid.lumix.utils.ResUtils
 import com.slimdroid.lumix.utils.requestPermissionLauncher
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class WifiScanningFragment : Fragment(R.layout.fragment_wifi_scanning) {
 
     private val viewModel: WifiScanningViewModel by viewModels { WifiScanningViewModelFactory() }
