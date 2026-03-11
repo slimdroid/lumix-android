@@ -1,12 +1,12 @@
-package com.slimdroid.lumix.scanner.esp_touch
+package com.slimdroid.lumix.core.scanner.esp_touch
 
 import android.content.Context
 import android.util.Log
 import com.espressif.iot.esptouch.EsptouchTask
 import com.espressif.iot.esptouch.IEsptouchResult
-import com.slimdroid.lumix.scanner.Device
-import com.slimdroid.lumix.scanner.Scanner
-import com.slimdroid.lumix.scanner.http.HttpScanner
+import com.slimdroid.lumix.core.scanner.Device
+import com.slimdroid.lumix.core.scanner.Scanner
+import com.slimdroid.lumix.core.scanner.http.HttpScanner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

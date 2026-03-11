@@ -1,4 +1,6 @@
-package com.slimdroid.lumix.scanner
+package com.slimdroid.lumix.core.scanner
+
+import com.slimdroid.lumix.core.model.LumixDevice
 
 data class Device(
     val ipAddress: String,
@@ -17,3 +19,11 @@ data class Device(
     override fun hashCode(): Int = macAddress.hashCode()
 
 }
+
+fun Device.toExternalModel() = LumixDevice(
+    ipAddress = ipAddress,
+    macAddress = macAddress,
+    name = name,
+    firmware = firmware,
+    type = type.name
+)

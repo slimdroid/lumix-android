@@ -67,7 +67,8 @@ private val ITEM_BORDER = 8.dp
 @Composable
 internal fun DeviceListScreen(
     state: DeviceListUiState,
-    onSearchClick: () -> Unit,
+    onAddNewDeviceClick: () -> Unit,
+    onStartScannerClick: () -> Unit,
     onDeviceClick: (device: LumixDevice) -> Unit
 ) {
     Scaffold(
@@ -87,7 +88,7 @@ internal fun DeviceListScreen(
                     )
                 },
                 actions = {
-                    IconButton(onClick = onSearchClick) {
+                    IconButton(onClick = onAddNewDeviceClick) {
                         Icon(
                             modifier = Modifier
                                 .padding(8.dp)
@@ -222,7 +223,8 @@ private fun DeviceListScreenPreview(
         Surface {
             DeviceListScreen(
                 state = uiState,
-                onSearchClick = {},
+                onAddNewDeviceClick = {},
+                onStartScannerClick = {},
                 onDeviceClick = {}
             )
         }

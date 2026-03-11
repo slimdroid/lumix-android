@@ -21,22 +21,22 @@ interface DeviceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDevices(devices: List<DeviceEntity>)
 
-    @Query("SELECT * FROM device WHERE device_id = :id")
+    @Query("SELECT * FROM device WHERE mac_address = :id")
     suspend fun getDeviceById(id: String): DeviceEntity?
 
-    @Query("UPDATE device SET device_ip = :ip WHERE device_id = :id")
+    @Query("UPDATE device SET ip_address = :ip WHERE mac_address = :id")
     suspend fun updateDeviceIp(id: String, ip: String)
 
-    @Query("UPDATE device SET device_name = :name WHERE device_id = :id")
+    @Query("UPDATE device SET name = :name WHERE mac_address = :id")
     suspend fun updateDeviceName(id: String, name: String)
 
-    @Query("UPDATE device SET app_version = :version WHERE device_id = :id")
+    @Query("UPDATE device SET firmware = :version WHERE mac_address = :id")
     suspend fun updateAppVersion(id: String, version: String)
 
     @Delete
     suspend fun deleteDevice(device: DeviceEntity)
 
-    @Query("DELETE FROM device WHERE device_id = :id")
+    @Query("DELETE FROM device WHERE mac_address = :id")
     suspend fun deleteDeviceById(id: String)
 
     @Transaction

@@ -1,10 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.slimdroid.device.scanner"
+    namespace = "com.slimdroid.lumix.core.scanner"
     compileSdk = 36
 
     defaultConfig {
@@ -18,6 +20,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.model)
+
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
 
@@ -37,5 +41,9 @@ dependencies {
 
     // ESP Touch
     implementation(libs.esptouch)
+
+    // Hilt
+    implementation(libs.dagger.hilt)
+    ksp(libs.dagger.hilt.compiler)
 
 }

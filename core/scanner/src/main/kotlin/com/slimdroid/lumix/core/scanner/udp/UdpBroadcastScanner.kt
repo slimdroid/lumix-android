@@ -1,9 +1,9 @@
-package com.slimdroid.lumix.scanner.udp
+package com.slimdroid.lumix.core.scanner.udp
 
-import com.slimdroid.lumix.scanner.Device
-import com.slimdroid.lumix.scanner.Scanner
-import com.slimdroid.lumix.scanner.dto.ScanDeviceDto
-import com.slimdroid.lumix.scanner.dto.asExternalModel
+import com.slimdroid.lumix.core.scanner.Device
+import com.slimdroid.lumix.core.scanner.Scanner
+import com.slimdroid.lumix.core.scanner.dto.ScanDeviceDto
+import com.slimdroid.lumix.core.scanner.dto.asExternalModel
 import io.github.aakira.napier.Napier
 import io.ktor.network.selector.SelectorManager
 import io.ktor.network.sockets.BoundDatagramSocket

@@ -17,12 +17,10 @@ dependencyResolutionManagement {
     }
 }
 
-include(
-    ":app",
-    ":scanner"
-)
+include(":app")
 include(
     ":core:database",
     ":core:data",
-    ":core:model"
+    ":core:model",
+    ":core:scanner"
 )

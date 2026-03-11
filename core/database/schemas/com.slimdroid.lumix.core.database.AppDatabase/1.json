@@ -2,39 +2,39 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1956901a628b328a13d61a8a16d3a7f0",
+    "identityHash": "2b6d568783c628e84ad581b72642e638",
     "entities": [
       {
         "tableName": "device",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`device_id` TEXT NOT NULL, `device_ip` TEXT NOT NULL, `device_name` TEXT NOT NULL, `app_version` TEXT NOT NULL, `device_type` TEXT NOT NULL, PRIMARY KEY(`device_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mac_address` TEXT NOT NULL, `ip_address` TEXT NOT NULL, `name` TEXT NOT NULL, `firmware` TEXT NOT NULL, `type` TEXT NOT NULL, PRIMARY KEY(`mac_address`))",
         "fields": [
           {
-            "fieldPath": "deviceId",
-            "columnName": "device_id",
+            "fieldPath": "macAddress",
+            "columnName": "mac_address",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "deviceIp",
-            "columnName": "device_ip",
+            "fieldPath": "ipAddress",
+            "columnName": "ip_address",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "name",
-            "columnName": "device_name",
+            "columnName": "name",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "appVersion",
-            "columnName": "app_version",
+            "fieldPath": "firmware",
+            "columnName": "firmware",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "type",
-            "columnName": "device_type",
+            "columnName": "type",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -42,14 +42,14 @@
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "device_id"
+            "mac_address"
           ]
         }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1956901a628b328a13d61a8a16d3a7f0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2b6d568783c628e84ad581b72642e638')"
     ]
   }
 }

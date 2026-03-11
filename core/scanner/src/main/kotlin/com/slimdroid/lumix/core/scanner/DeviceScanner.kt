@@ -1,8 +1,8 @@
-package com.slimdroid.lumix.scanner
+package com.slimdroid.lumix.core.scanner
 
-import com.slimdroid.lumix.scanner.http.HttpScanner
-import com.slimdroid.lumix.scanner.http.HttpServiceModeScanner
-import com.slimdroid.lumix.scanner.udp.UdpBroadcastScanner
+import com.slimdroid.lumix.core.scanner.http.HttpScanner
+import com.slimdroid.lumix.core.scanner.http.HttpServiceModeScanner
+import com.slimdroid.lumix.core.scanner.udp.UdpBroadcastScanner
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.net.NetworkInterface
+import javax.inject.Inject
 
 private const val DEFAULT_SEARCHING_TIME = 5_000L  // in milliseconds
 
@@ -50,7 +51,9 @@ interface DeviceScanner {
     suspend fun scanDeviceByIp(deviceIp: String): Result<Device>
 }
 
-class DeviceScannerImpl(private vararg val deviceTypes: DeviceType) : DeviceScanner {
+class DeviceScannerImpl @Inject constructor() : DeviceScanner {
+
+    private val deviceTypes: Array<DeviceType> = arrayOf(DeviceType.LUMIX)
 
     private val job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.IO + job)

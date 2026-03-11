@@ -1,4 +1,4 @@
-package com.slimdroid.lumix.scanner
+package com.slimdroid.lumix.core.scanner
 
 import kotlinx.coroutines.flow.Flow
 

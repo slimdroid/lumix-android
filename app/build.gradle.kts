@@ -42,7 +42,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.scanner)
+    implementation(projects.core.scanner)
     implementation(projects.core.data)
 
     // MDC

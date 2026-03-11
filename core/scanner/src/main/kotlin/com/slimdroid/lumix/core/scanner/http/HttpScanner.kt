@@ -1,9 +1,9 @@
-package com.slimdroid.lumix.scanner.http
+package com.slimdroid.lumix.core.scanner.http
 
 import androidx.annotation.CheckResult
-import com.slimdroid.lumix.scanner.Device
-import com.slimdroid.lumix.scanner.Scanner
-import com.slimdroid.lumix.scanner.http.source.ScanDeviceDataSource
+import com.slimdroid.lumix.core.scanner.Device
+import com.slimdroid.lumix.core.scanner.Scanner
+import com.slimdroid.lumix.core.scanner.http.source.ScanDeviceDataSource
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

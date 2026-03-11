@@ -1,7 +1,7 @@
-package com.slimdroid.lumix.scanner.http
+package com.slimdroid.lumix.core.scanner.http
 
-import com.slimdroid.lumix.scanner.Device
-import com.slimdroid.lumix.scanner.http.HttpIpScanner.Companion.IP_PATTERN
+import com.slimdroid.lumix.core.scanner.Device
+import com.slimdroid.lumix.core.scanner.http.HttpIpScanner.Companion.IP_PATTERN
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.ProducerScope

@@ -1,7 +1,7 @@
-package com.slimdroid.lumix.scanner.dto
+package com.slimdroid.lumix.core.scanner.dto
 
-import com.slimdroid.lumix.scanner.DeviceType
-import com.slimdroid.lumix.scanner.Device
+import com.slimdroid.lumix.core.scanner.DeviceType
+import com.slimdroid.lumix.core.scanner.Device
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

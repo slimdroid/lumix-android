@@ -1,6 +1,6 @@
-package com.slimdroid.lumix.scanner.http
+package com.slimdroid.lumix.core.scanner.http
 
-import com.slimdroid.lumix.scanner.Device
+import com.slimdroid.lumix.core.scanner.Device
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.channels.awaitClose

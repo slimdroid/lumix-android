@@ -1,7 +1,7 @@
-package com.slimdroid.lumix.scanner.http.source
+package com.slimdroid.lumix.core.scanner.http.source
 
-import com.slimdroid.lumix.scanner.dto.ScanDeviceDto
-import com.slimdroid.lumix.scanner.http.ScannerClient
+import com.slimdroid.lumix.core.scanner.dto.ScanDeviceDto
+import com.slimdroid.lumix.core.scanner.http.ScannerClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import kotlinx.coroutines.CoroutineDispatcher

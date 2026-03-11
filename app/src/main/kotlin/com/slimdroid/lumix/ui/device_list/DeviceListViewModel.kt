@@ -3,10 +3,9 @@ package com.slimdroid.lumix.ui.device_list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.slimdroid.lumix.core.data.repository.DeviceRepository
-import com.slimdroid.lumix.scanner.Device
-import com.slimdroid.lumix.scanner.DeviceScanner
-import com.slimdroid.lumix.scanner.DeviceScannerImpl
-import com.slimdroid.lumix.scanner.DeviceType
+import com.slimdroid.lumix.core.model.LumixDevice
+import com.slimdroid.lumix.core.scanner.DeviceScanner
+import com.slimdroid.lumix.core.scanner.toExternalModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,14 +20,14 @@ import javax.inject.Inject
 @HiltViewModel
 class DeviceListViewModel @Inject constructor(
     repository: DeviceRepository,
-    private val scanner: DeviceScanner = DeviceScannerImpl(DeviceType.LUMIX)
+    private val scanner: DeviceScanner
 ) : ViewModel() {
 
     private val isProgress: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    private val scannedDevices: MutableStateFlow<List<Device>> = MutableStateFlow(emptyList())
+    private val scannedDevices: MutableStateFlow<List<LumixDevice>> = MutableStateFlow(emptyList())
 
     init {
-        startScan()
+        startScanner()
     }
 
     val uiState: StateFlow<DeviceListUiState> = combine(
@@ -37,14 +36,21 @@ class DeviceListViewModel @Inject constructor(
         isProgress
     ) { storedDevices, scannedDevices, progress ->
         if (storedDevices.isEmpty()) {
-            stopScan()
+            stopScanner()
             return@combine DeviceListUiState.Empty
         } else {
             DeviceListUiState.Content(
                 isProgress = progress,
                 deviceList = storedDevices.map { device ->
-                    val scannedDevice = scannedDevices.find { it.macAddress == device.macAddress }
-
+                    val scannedDevice = scannedDevices
+                        .find { it.macAddress == device.macAddress }
+                        ?.also {
+                            if (it != device) {
+                                viewModelScope.launch {
+                                    repository.updateDevice(it)
+                                }
+                            }
+                        }
                     device.copy(online = scannedDevice != null)
                 }
             )
@@ -55,7 +61,7 @@ class DeviceListViewModel @Inject constructor(
         initialValue = DeviceListUiState.Content.default()
     )
 
-    fun startScan() {
+    fun startScanner() {
         isProgress.value = false
         viewModelScope.launch(Dispatchers.IO) {
             scanner.startScanFlow()
@@ -63,12 +69,12 @@ class DeviceListViewModel @Inject constructor(
                     isProgress.value = false
                 }
                 .collect { devices ->
-                    scannedDevices.value = devices
+                    scannedDevices.value = devices.map { it.toExternalModel() }
                 }
         }
     }
 
-    fun stopScan() {
+    fun stopScanner() {
         isProgress.value = false
         scanner.stopScan()
     }

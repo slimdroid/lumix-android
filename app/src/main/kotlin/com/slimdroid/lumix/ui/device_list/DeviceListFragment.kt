@@ -36,9 +36,13 @@ class DeviceListFragment : Fragment() {
                         val args = Bundle().apply {
                             putString("ipAddress", ipAddress)
                         }
+                        viewModel.stopScanner()
                         findNavController().navigate(R.id.action_deviceListFragment_to_deviceFragment, args)
                     },
-                    onSearchClick = {
+                    onStartScannerClick = {
+                        viewModel.startScanner()
+                    },
+                    onAddNewDeviceClick = {
                         findNavController().navigate(R.id.action_deviceListFragment_to_connectionFragment2)
                     }
                 )
