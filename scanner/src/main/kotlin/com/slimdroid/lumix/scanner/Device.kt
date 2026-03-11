@@ -1,18 +1,19 @@
 package com.slimdroid.lumix.scanner
 
 data class Device(
-    val deviceIp: String,
-    val deviceId: String,
+    val ipAddress: String,
+    val macAddress: String,
     val name: String,
-    val appVersion: String,
+    val firmware: String,
     val type: DeviceType,
 ) {
 
     override fun equals(other: Any?) = (other is Device)
-            && deviceIp == other.deviceIp
-            && deviceId == other.deviceId
+            && ipAddress == other.ipAddress
+            && macAddress == other.macAddress
+            && firmware == other.firmware
             && type == other.type
 
-    override fun hashCode(): Int = deviceId.hashCode()
+    override fun hashCode(): Int = macAddress.hashCode()
 
 }

@@ -68,7 +68,7 @@ class EspTouchScanner(
     }.takeWhile {
         isScanning
     }.onEach {
-        Log.d(TAG, "device:${it.deviceId}, ip:${it.deviceIp}, type:${it.type}")
+        Log.d(TAG, "device:${it.macAddress}, ip:${it.ipAddress}, type:${it.type}")
     }.onCompletion {
         Log.d(TAG, "result: Broadcast search is over")
     }

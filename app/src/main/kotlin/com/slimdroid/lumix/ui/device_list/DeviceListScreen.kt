@@ -20,15 +20,12 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -54,9 +51,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
+import com.slimdroid.lumix.core.model.LumixDevice
 import com.slimdroid.lumix.ui.shape.RoundedPolygonShape
 import com.slimdroid.lumix.ui.theme.AppTheme
-import com.slimdroid.lumix.scanner.Device
 import kotlin.math.PI
 import kotlin.math.sin
 
@@ -71,7 +68,7 @@ private val ITEM_BORDER = 8.dp
 internal fun DeviceListScreen(
     state: DeviceListUiState,
     onSearchClick: () -> Unit,
-    onDeviceClick: (device: Device) -> Unit
+    onDeviceClick: (device: LumixDevice) -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -101,16 +98,6 @@ internal fun DeviceListScreen(
                     }
                 }
             )
-        }, floatingActionButton = {
-            LargeFloatingActionButton(
-                onClick = { state.btnAction.invoke() },
-                shape = RoundedPolygonShape(6, CORNER_RADIUS),
-            ) {
-                Icon(
-                    imageVector = if (state.isProgressShow) Icons.Filled.Close else Icons.Filled.Search,
-                    contentDescription = null
-                )
-            }
         }
     ) { padding ->
         Box(
@@ -118,15 +105,20 @@ internal fun DeviceListScreen(
                 .fillMaxSize()
 //                .padding(padding)
         ) {
-            DeviceList(state.deviceList) { device ->
-                onDeviceClick.invoke(device)
-            }
-            if (state.isProgressShow) {
-                LinearProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .windowInsetsPadding(WindowInsets.statusBars)
-                )
+            when (state) {
+                is DeviceListUiState.Empty -> Unit
+                is DeviceListUiState.Content -> {
+                    DeviceList(state.deviceList) { device ->
+                        onDeviceClick.invoke(device)
+                    }
+                    if (state.isProgress) {
+                        LinearProgressIndicator(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .windowInsetsPadding(WindowInsets.statusBars)
+                        )
+                    }
+                }
             }
         }
     }
@@ -135,7 +127,7 @@ internal fun DeviceListScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DeviceList(
-    deviceList: List<Device>, onItemClick: (device: Device) -> Unit
+    deviceList: List<LumixDevice>, onItemClick: (device: LumixDevice) -> Unit
 ) {
     BoxWithConstraints(
         modifier = Modifier.fillMaxWidth()
@@ -166,10 +158,10 @@ private fun DeviceList(
 
 @Composable
 internal fun HoneycombItem(
-    device: Device,
+    device: LumixDevice,
     index: Int,
     hexagonSize: Dp,
-    onItemClick: (device: Device) -> Unit
+    onItemClick: (device: LumixDevice) -> Unit
 ) {
     val paddingValue by remember { mutableStateOf(ITEM_PADDING * 1.866f + hexagonSize * .75f) }
     val itemShape by remember {
@@ -196,7 +188,7 @@ internal fun HoneycombItem(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = device.deviceId, color = MaterialTheme.colorScheme.tertiary
+                text = device.macAddress, color = MaterialTheme.colorScheme.tertiary
             )
 //            Image(
 //                imageVector = getIcon(device.type),
@@ -205,7 +197,7 @@ internal fun HoneycombItem(
 //                modifier = Modifier.size(hexagonSize / 2)
 //            )
             Text(
-                text = device.deviceIp, fontSize = 12.sp, color = OrangeColor
+                text = device.ipAddress, fontSize = 12.sp, color = OrangeColor
             )
         }
     }
@@ -242,7 +234,7 @@ private fun DeviceListScreenPreview(
 @Composable
 private fun HoneycombItemPreview(
     @PreviewParameter(DeviceListPreviewProvider::class)
-    uiState: DeviceListUiState
+    uiState: DeviceListUiState.Content
 ) {
     AppTheme {
         Surface {

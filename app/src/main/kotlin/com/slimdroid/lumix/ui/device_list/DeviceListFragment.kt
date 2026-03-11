@@ -32,7 +32,7 @@ class DeviceListFragment : Fragment() {
                 DeviceListScreen(
                     state = state,
                     onDeviceClick = { device ->
-                        val ipAddress = device.deviceIp
+                        val ipAddress = device.ipAddress
                         val args = Bundle().apply {
                             putString("ipAddress", ipAddress)
                         }

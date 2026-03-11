@@ -8,17 +8,25 @@ import com.slimdroid.lumix.core.model.LumixDevice
 @Entity(tableName = "device")
 data class DeviceEntity(
     @PrimaryKey
-    @ColumnInfo("device_id") val deviceId: String,
-    @ColumnInfo("device_ip") val deviceIp: String,
-    @ColumnInfo("device_name") val name: String,
-    @ColumnInfo("app_version") val appVersion: String,
-    @ColumnInfo("device_type") val type: String,
+    @ColumnInfo("mac_address")  val macAddress: String,
+    @ColumnInfo("ip_address")   val ipAddress: String,
+    @ColumnInfo("name")         val name: String,
+    @ColumnInfo("firmware")     val firmware: String,
+    @ColumnInfo("type")         val type: String,
 )
 
 fun DeviceEntity.toExternalModel() = LumixDevice(
-    id = deviceId,
-    ip = deviceIp,
+    macAddress = macAddress,
+    ipAddress = ipAddress,
     name = name,
     type = type,
-    firmwareVersion = appVersion
+    firmware = firmware
+)
+
+fun LumixDevice.toEntity() = DeviceEntity(
+    macAddress = macAddress,
+    ipAddress = ipAddress,
+    name = name,
+    type = type,
+    firmware = firmware
 )

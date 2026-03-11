@@ -1,5 +1,6 @@
 package com.slimdroid.lumix.core.data.repository
 
+import com.slimdroid.lumix.core.database.entity.toEntity
 import com.slimdroid.lumix.core.database.entity.toExternalModel
 import com.slimdroid.lumix.core.database.source.DeviceLocalDataSource
 import com.slimdroid.lumix.core.model.LumixDevice
@@ -11,8 +12,8 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 interface DeviceRepository {
-
     fun getDevices(): Flow<List<LumixDevice>>
+    suspend fun updateDevice(device: LumixDevice)
 }
 
 @Module
@@ -25,4 +26,8 @@ class DeviceRepositoryImpl @Inject constructor(
         .map { deviceList ->
             deviceList.map { device -> device.toExternalModel() }
         }
+
+    override suspend fun updateDevice(device: LumixDevice) {
+        localDataSource.insertDevice(device.toEntity())
+    }
 }

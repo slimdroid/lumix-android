@@ -48,7 +48,7 @@ internal class HttpServiceModeScanner : HttpScanner() {
     }.takeWhile {
         isScanning
     }.onEach {
-        Napier.i("device:${it.deviceId}, ip:${it.deviceIp}, type:${it.type}", tag = TAG)
+        Napier.i("device:${it.macAddress}, ip:${it.ipAddress}, type:${it.type}", tag = TAG)
     }.onCompletion {
         Napier.i("result: HTTP Service Mode search is over", tag = TAG)
     }

@@ -3,6 +3,7 @@ package com.slimdroid.lumix.ui.device_list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.slimdroid.lumix.core.data.repository.DeviceRepository
+import com.slimdroid.lumix.scanner.Device
 import com.slimdroid.lumix.scanner.DeviceScanner
 import com.slimdroid.lumix.scanner.DeviceScannerImpl
 import com.slimdroid.lumix.scanner.DeviceType
@@ -14,79 +15,61 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DeviceListViewModel @Inject constructor(
-    private val repository: DeviceRepository,
+    repository: DeviceRepository,
     private val scanner: DeviceScanner = DeviceScannerImpl(DeviceType.LUMIX)
 ) : ViewModel() {
 
-    private val devices = repository.getDevices()
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Eagerly,
-            initialValue = emptyList()
-        )
+    private val isProgress: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private val scannedDevices: MutableStateFlow<List<Device>> = MutableStateFlow(emptyList())
 
-    private val scannedDevices = scanner.startScanFlow()
+    init {
+        startScan()
+    }
 
-    private val resultFlow = combine(
-        devices,
-        scannedDevices
-    ) { devices, scannedDevices ->
-        val resultDevices = devices
-        scannedDevices.forEach { scDevice ->
-            val r = devices.any { it.id == scDevice.deviceId }
-            if (r) {
+    val uiState: StateFlow<DeviceListUiState> = combine(
+        repository.getDevices(),
+        scannedDevices,
+        isProgress
+    ) { storedDevices, scannedDevices, progress ->
+        if (storedDevices.isEmpty()) {
+            stopScan()
+            return@combine DeviceListUiState.Empty
+        } else {
+            DeviceListUiState.Content(
+                isProgress = progress,
+                deviceList = storedDevices.map { device ->
+                    val scannedDevice = scannedDevices.find { it.macAddress == device.macAddress }
 
-            }
-        }
-
-
-        ""
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Eagerly,
-        initialValue = ""
-    )
-
-    private val _uiState = MutableStateFlow(DeviceListUiState(btnAction = { startScan() }))
-    val uiState: StateFlow<DeviceListUiState> = _uiState
-
-    private fun startScan() {
-        _uiState.update { uiState ->
-            uiState.copy(
-                isProgressShow = true,
-                btnAction = { stopScan() }
+                    device.copy(online = scannedDevice != null)
+                }
             )
         }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = DeviceListUiState.Content.default()
+    )
+
+    fun startScan() {
+        isProgress.value = false
         viewModelScope.launch(Dispatchers.IO) {
             scanner.startScanFlow()
                 .onCompletion {
-                    _uiState.update { uiState ->
-                        uiState.copy(
-                            isProgressShow = false,
-                            btnAction = { startScan() })
-                    }
+                    isProgress.value = false
                 }
                 .collect { devices ->
-                    _uiState.update { uiState ->
-                        uiState.copy(deviceList = devices)
-                    }
+                    scannedDevices.value = devices
                 }
         }
     }
 
-    private fun stopScan() {
-        _uiState.update { uiState ->
-            uiState.copy(
-                isProgressShow = false,
-                btnAction = { startScan() }
-            )
-        }
+    fun stopScan() {
+        isProgress.value = false
         scanner.stopScan()
     }
 

@@ -52,7 +52,7 @@ internal class HttpIpScanner : HttpScanner() {
     }.takeWhile {
         isScanning
     }.onEach {
-        Napier.i("device:${it.deviceId}, ip:${it.deviceIp}, type:${it.type}", tag = TAG)
+        Napier.i("device:${it.macAddress}, ip:${it.ipAddress}, type:${it.type}", tag = TAG)
     }.onCompletion {
         Napier.i("result: HTTP IP search is over", tag = TAG)
     }

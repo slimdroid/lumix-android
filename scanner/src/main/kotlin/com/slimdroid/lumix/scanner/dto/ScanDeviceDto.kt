@@ -7,17 +7,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class ScanDeviceDto(
-    @SerialName("device_id")        val id: String,
+    @SerialName("device_id")        val macAddress: String,
     @SerialName("name")             val name: String,
     @SerialName("type")             val type: String,
-    @SerialName("ip")               val ip: String,
-    @SerialName("app_version")      val appVersion: String,
+    @SerialName("ip")               val ipAddress: String,
+    @SerialName("app_version")      val firmware: String,
 )
 
 internal fun ScanDeviceDto.asExternalModel() = Device(
-    deviceIp = ip,
-    deviceId = id.uppercase(),
+    ipAddress = ipAddress,
+    macAddress = macAddress.uppercase(),
     type = DeviceType.valueOfString(type),
     name = name,
-    appVersion = appVersion
+    firmware = firmware
 )
