@@ -15,13 +15,5 @@ data class LumixDevice(
             && type == other.type
             && firmware == other.firmware
 
-    override fun hashCode(): Int {
-        var result = online.hashCode()
-        result = 31 * result + macAddress.hashCode()
-        result = 31 * result + ipAddress.hashCode()
-        result = 31 * result + name.hashCode()
-        result = 31 * result + type.hashCode()
-        result = 31 * result + firmware.hashCode()
-        return result
-    }
+    override fun hashCode(): Int = macAddress.hashCode()
 }

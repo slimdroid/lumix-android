@@ -78,9 +78,10 @@ private val deviceList = listOf(
 
 class DeviceListPreviewProvider : PreviewParameterProvider<DeviceListUiState> {
     override val values: Sequence<DeviceListUiState> = sequenceOf(
-        DeviceListUiState.Empty,
+        DeviceListUiState.empty(),
         DeviceListUiState.Content(
             deviceList = deviceList.take(10),
+            isRefreshEnable = true,
             isProgress = true
         )
     )

@@ -1,5 +1,6 @@
 package com.slimdroid.lumix.ui.device_list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.slimdroid.lumix.core.data.repository.DeviceRepository
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,32 +39,29 @@ class DeviceListViewModel @Inject constructor(
     ) { storedDevices, scannedDevices, progress ->
         if (storedDevices.isEmpty()) {
             stopScanner()
-            return@combine DeviceListUiState.Empty
+            return@combine DeviceListUiState.empty()
         } else {
             DeviceListUiState.Content(
                 isProgress = progress,
                 deviceList = storedDevices.map { device ->
                     val scannedDevice = scannedDevices
                         .find { it.macAddress == device.macAddress }
-                        ?.also {
-                            if (it != device) {
-                                viewModelScope.launch {
-                                    repository.updateDevice(it)
-                                }
-                            }
-                        }
+                        ?.also { if (it != device) repository.updateDevice(it) }
                     device.copy(online = scannedDevice != null)
                 }
             )
         }
+    }.onEach {
+        Log.d("DeviceListViewModel", "uiState: $it")
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = DeviceListUiState.Content.default()
+        initialValue = DeviceListUiState.default()
     )
 
     fun startScanner() {
-        isProgress.value = false
+        isProgress.value = true
+        Log.d("DeviceListViewModel", "startScanner")
         viewModelScope.launch(Dispatchers.IO) {
             scanner.startScanFlow()
                 .onCompletion {

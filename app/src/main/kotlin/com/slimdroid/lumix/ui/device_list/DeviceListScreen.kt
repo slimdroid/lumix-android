@@ -19,21 +19,26 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.pullToRefresh
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,8 +47,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -51,6 +56,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
+import com.slimdroid.lumix.R
 import com.slimdroid.lumix.core.model.LumixDevice
 import com.slimdroid.lumix.ui.shape.RoundedPolygonShape
 import com.slimdroid.lumix.ui.theme.AppTheme
@@ -71,8 +77,16 @@ internal fun DeviceListScreen(
     onStartScannerClick: () -> Unit,
     onDeviceClick: (device: LumixDevice) -> Unit
 ) {
+    val pullToRefreshState = rememberPullToRefreshState()
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .pullToRefresh(
+                isRefreshing = (state as? DeviceListUiState.Content)?.isProgress ?: false,
+                state = pullToRefreshState,
+                enabled = state.isRefreshEnable,
+                onRefresh = onStartScannerClick
+            ),
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults
@@ -80,10 +94,9 @@ internal fun DeviceListScreen(
                     .copy(containerColor = Color.Transparent),
                 title = {
                     Image(
-                        imageVector = FieldbeeLogo,
+                        painter = painterResource(id = R.drawable.img_logo),
                         contentDescription = null,
                         modifier = Modifier.height(32.dp),
-                        colorFilter = ColorFilter.tint(color = LocalContentColor.current),
                         contentScale = ContentScale.Fit
                     )
                 },
@@ -104,10 +117,22 @@ internal fun DeviceListScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-//                .padding(padding)
+                .padding(padding)
         ) {
             when (state) {
-                is DeviceListUiState.Empty -> Unit
+                is DeviceListUiState.Empty -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState()),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Button(onClick = onAddNewDeviceClick) {
+                            Text(text = "Add new device")
+                        }
+                    }
+                }
+
                 is DeviceListUiState.Content -> {
                     DeviceList(state.deviceList) { device ->
                         onDeviceClick.invoke(device)
@@ -121,6 +146,11 @@ internal fun DeviceListScreen(
                     }
                 }
             }
+            PullToRefreshDefaults.Indicator(
+                state = pullToRefreshState,
+                isRefreshing = (state as? DeviceListUiState.Content)?.isProgress ?: false,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
         }
     }
 }
@@ -146,8 +176,8 @@ private fun DeviceList(
                 bottom = FAB_SIZE_LARGE
                         + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
                         + 16.dp,
-                top = TopAppBarDefaults.MediumAppBarCollapsedHeight
-                        + WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+                top = if (deviceList.isEmpty()) 0.dp else (TopAppBarDefaults.MediumAppBarCollapsedHeight
+                        + WindowInsets.statusBars.asPaddingValues().calculateTopPadding())
             )
         ) {
             itemsIndexed(items = deviceList, key = { _, item -> item.toString() }) { index, item ->
