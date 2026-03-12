@@ -1,5 +1,8 @@
 package com.slimdroid.lumix.core.model
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class LumixDevice(
     val macAddress: String,
     val ipAddress: String,

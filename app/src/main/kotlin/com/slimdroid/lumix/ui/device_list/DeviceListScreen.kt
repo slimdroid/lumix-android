@@ -22,18 +22,18 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
@@ -58,8 +58,8 @@ import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import com.slimdroid.lumix.R
 import com.slimdroid.lumix.core.model.LumixDevice
+import com.slimdroid.lumix.theme.LumixTheme
 import com.slimdroid.lumix.ui.shape.RoundedPolygonShape
-import com.slimdroid.lumix.ui.theme.AppTheme
 import kotlin.math.PI
 import kotlin.math.sin
 
@@ -101,14 +101,12 @@ internal fun DeviceListScreen(
                     )
                 },
                 actions = {
-                    IconButton(onClick = onAddNewDeviceClick) {
+                    TextButton(onClick = onAddNewDeviceClick) {
                         Icon(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .size(24.dp),
-                            imageVector = Icons.Outlined.Search,
+                            imageVector = Icons.Outlined.Add,
                             contentDescription = null
                         )
+                        Text(text = "ADD")
                     }
                 }
             )
@@ -158,7 +156,8 @@ internal fun DeviceListScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DeviceList(
-    deviceList: List<LumixDevice>, onItemClick: (device: LumixDevice) -> Unit
+    deviceList: List<LumixDevice>,
+    onItemClick: (device: LumixDevice) -> Unit
 ) {
     BoxWithConstraints(
         modifier = Modifier.fillMaxWidth()
@@ -249,7 +248,7 @@ private fun DeviceListScreenPreview(
     @PreviewParameter(DeviceListPreviewProvider::class)
     uiState: DeviceListUiState
 ) {
-    AppTheme {
+    LumixTheme {
         Surface {
             DeviceListScreen(
                 state = uiState,
@@ -268,7 +267,7 @@ private fun HoneycombItemPreview(
     @PreviewParameter(DeviceListPreviewProvider::class)
     uiState: DeviceListUiState.Content
 ) {
-    AppTheme {
+    LumixTheme {
         Surface {
             HoneycombItem(
                 device = uiState.deviceList.first(),

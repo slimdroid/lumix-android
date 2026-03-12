@@ -79,6 +79,7 @@ compose-material3                               = { module = "androidx.compose.m
 compose-material3-android                       = { module = "androidx.compose.material3:material3-android" }
 compose-material3-windowSizeClass               = { module = "androidx.compose.material3:material3-window-size-class" }
 compose-material3-navigationSuite               = { module = "androidx.compose.material3:material3-adaptive-navigation-suite" }
+compose-runtime-annotation                      = { module = "androidx.compose.runtime:runtime-annotation" }
 
 ktor-network = { module = "io.ktor:ktor-network", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
