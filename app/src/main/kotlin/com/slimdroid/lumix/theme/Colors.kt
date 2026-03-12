@@ -7,30 +7,36 @@ internal object Colors {
      * Light theme colors
      */
     internal object Light {
+        // Rainbow Palette
+        private val violet = Color(0xFFD500F9)
+        private val cyan = Color(0xFF00E5FF)
+        private val lime = Color(0xFFAEEA00)
+        private val orange = Color(0xFFFF9100)
+        private val blue = Color(0xFF2979FF)
 
         // Primary
-        internal val primary = Color(0xFFF1BF0D)
-        internal val onPrimary = Color(0xFF1A1A1A)
-        internal val primaryContainer = Color(0xFFE7E6EB)
-        internal val onPrimaryContainer = Color(0xFFEBBB11)
+        internal val primary = violet
+        internal val onPrimary = Color(0xFFFFFFFF)
+        internal val primaryContainer = violet.copy(alpha = 0.2f)
+        internal val onPrimaryContainer = violet
         internal val inversePrimary = Color(0xFFE9B019)
 
         // Secondary
-        internal val secondary = Color(0xFF333333)
-        internal val onSecondary = Color(0xFFFFFFFF)
-        internal val secondaryContainer = Color(0xFFE1E1EA)
-        internal val onSecondaryContainer = Color(0xFF191C20)
+        internal val secondary = cyan
+        internal val onSecondary = Color(0xFF1A1A1A)
+        internal val secondaryContainer = cyan.copy(alpha = 0.2f)
+        internal val onSecondaryContainer = cyan
 
         // Tertiary
-        internal val tertiary = Color(0xFF29638A)
+        internal val tertiary = orange
         internal val onTertiary = Color(0xFFFFFFFF)
-        internal val tertiaryContainer = Color(0xFFCBE6FF)
-        internal val onTertiaryContainer = Color(0xFF001E30)
+        internal val tertiaryContainer = orange.copy(alpha = 0.2f)
+        internal val onTertiaryContainer = orange
 
-        // Surface
-        internal val surface = Color(0xFFFDFDFF)
+        // Surface (Semi-transparent)
+        internal val surface = Color(0xCCFDFDFF)
         internal val onSurface = Color(0xFF181819)
-        internal val surfaceVariant = Color(0xFFF1F1F7)
+        internal val surfaceVariant = Color(0x99F1F1F7)
         internal val onSurfaceVariant = Color(0xFF616168)
         internal val inverseSurface = Color(0xFF202122)
         internal val inverseOnSurface = Color(0xFFF0F0F7)
@@ -46,50 +52,56 @@ internal object Colors {
         internal val onErrorContainer = Color(0xFF980E0E)
 
         // Outline
-        internal val outline = Color(0xFF8E8E97)
-        internal val outlineVariant = Color(0xFFD1D2DD)
+        internal val outline = cyan
+        internal val outlineVariant = violet
 
         // Scrim
-        internal val scrim = Color(0xFF000000)
+        internal val scrim = Color(0x66000000)
 
         // Surface Container
-        internal val surfaceDim = Color(0xFFE6E6EC)
-        internal val surfaceBright = Color(0xFFFDFDFF)
-        internal val surfaceContainer = Color(0xFFF1F1F8)
-        internal val surfaceContainerHigh = Color(0xFFECECF4)
-        internal val surfaceContainerHighest = Color(0xFFE6E6F1)
-        internal val surfaceContainerLow = Color(0xFFF7F7FD)
-        internal val surfaceContainerLowest = Color(0xFFFFFFFF)
+        internal val surfaceDim = Color(0xCCE6E6EC)
+        internal val surfaceBright = Color(0xCCFDFDFF)
+        internal val surfaceContainer = Color(0x99F1F1F8)
+        internal val surfaceContainerHigh = Color(0x99ECECF4)
+        internal val surfaceContainerHighest = Color(0x99E6E6F1)
+        internal val surfaceContainerLow = Color(0xAAF7F7FD)
+        internal val surfaceContainerLowest = Color(0xCCFFFFFF)
     }
 
     /**
      * Dark theme colors
      */
     internal object Dark {
+        // Rainbow Palette
+        private val violet = Color(0xFFD500F9)
+        private val cyan = Color(0xFF00E5FF)
+        private val lime = Color(0xFFAEEA00)
+        private val orange = Color(0xFFFF9100)
+        private val blue = Color(0xFF2979FF)
 
         // Primary
-        internal val primary = Color(0xFF765BF6)
+        internal val primary = violet
         internal val onPrimary = Color(0xFFFFFFFF)
-        internal val primaryContainer = Color(0xFF775AF6)
+        internal val primaryContainer = violet.copy(alpha = 0.3f)
         internal val onPrimaryContainer = Color(0xFFFFFFFF)
         internal val inversePrimary = Color(0xFF171615)
 
         // Secondary
-        internal val secondary = Color(0xFF605599)
-        internal val onSecondary = Color(0xFFFFFFFF)
-        internal val secondaryContainer = Color(0xFFC7BBFF)
-        internal val onSecondaryContainer = Color(0xFF352A6B)
+        internal val secondary = cyan
+        internal val onSecondary = Color(0xFF111318)
+        internal val secondaryContainer = cyan.copy(alpha = 0.3f)
+        internal val onSecondaryContainer = Color(0xFFFFFFFF)
 
         // Tertiary
-        internal val tertiary = Color(0xFF930E85)
-        internal val onTertiary = Color(0xFFFFFFFF)
-        internal val tertiaryContainer = Color(0xFFC040AD)
+        internal val tertiary = lime
+        internal val onTertiary = Color(0xFF111318)
+        internal val tertiaryContainer = lime.copy(alpha = 0.3f)
         internal val onTertiaryContainer = Color(0xFFFFFFFF)
 
-        // Surface
-        internal val surface = Color(0xFF111318)
+        // Surface (Semi-transparent)
+        internal val surface = Color(0xCC111318)
         internal val onSurface = Color(0xFFEDEDF5)
-        internal val surfaceVariant = Color(0xFF37393E)
+        internal val surfaceVariant = Color(0x9937393E)
         internal val onSurfaceVariant = Color(0xFFC7C5D0)
         internal val inverseSurface = Color(0xFFE2E2E9)
         internal val inverseOnSurface = Color(0xFFC7C5D0)
@@ -105,19 +117,19 @@ internal object Colors {
         internal val onErrorContainer = Color(0xFFFFDAD6)
 
         // Outline
-        internal val outline = Color(0xFF91909A)
-        internal val outlineVariant = Color(0xFF46464F)
+        internal val outline = cyan
+        internal val outlineVariant = violet
 
         // Scrim
-        internal val scrim = Color(0xFF000000)
+        internal val scrim = Color(0x99000000)
 
         // Surface Container
-        internal val surfaceDim = Color(0xFF111318)
-        internal val surfaceBright = Color(0xFF37393E)
-        internal val surfaceContainer = Color(0xFF1D2024)
-        internal val surfaceContainerHigh = Color(0xFF282A2F)
-        internal val surfaceContainerHighest = Color(0xFF33353A)
-        internal val surfaceContainerLow = Color(0xFF191C20)
-        internal val surfaceContainerLowest = Color(0xFF0C0E13)
+        internal val surfaceDim = Color(0xCC111318)
+        internal val surfaceBright = Color(0xCC37393E)
+        internal val surfaceContainer = Color(0x991D2024)
+        internal val surfaceContainerHigh = Color(0x99282A2F)
+        internal val surfaceContainerHighest = Color(0x9933353A)
+        internal val surfaceContainerLow = Color(0xAA191C20)
+        internal val surfaceContainerLowest = Color(0xCC0C0E13)
     }
 }

@@ -63,7 +63,6 @@ import com.slimdroid.lumix.ui.shape.RoundedPolygonShape
 import kotlin.math.PI
 import kotlin.math.sin
 
-private val OrangeColor = Color(255, 197, 2)
 private val FAB_SIZE_LARGE = 96.dp
 private val CORNER_RADIUS = 32.dp
 private val ITEM_PADDING = 16.dp
@@ -210,7 +209,7 @@ internal fun HoneycombItem(
             )
             .size(hexagonSize)
             .clip(itemShape)
-            .border(ITEM_BORDER, OrangeColor, itemShape)
+            .border(ITEM_BORDER, MaterialTheme.colorScheme.outline, itemShape)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -227,7 +226,7 @@ internal fun HoneycombItem(
 //                modifier = Modifier.size(hexagonSize / 2)
 //            )
             Text(
-                text = device.ipAddress, fontSize = 12.sp, color = OrangeColor
+                text = device.ipAddress, fontSize = 12.sp, color = MaterialTheme.colorScheme.secondary
             )
         }
     }

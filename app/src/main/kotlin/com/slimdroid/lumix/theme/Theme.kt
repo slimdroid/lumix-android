@@ -1,13 +1,20 @@
 package com.slimdroid.lumix.theme
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialExpressiveTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun LumixTheme(
@@ -16,10 +23,52 @@ fun LumixTheme(
 ) {
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
-    BaseTheme(
-        colorScheme = colorScheme,
-        content = content
+    // Subtle background gradient to hint at light control
+    val backgroundBrush = if (darkTheme) {
+        Brush.radialGradient(
+            colors = listOf(
+                Color(0xFF20232A),
+                Color(0xFF111318)
+            )
+        )
+    } else {
+        Brush.radialGradient(
+            colors = listOf(
+                Color(0xFFF1F1F8),
+                Color(0xFFFDFDFF)
+            )
+        )
+    }
+
+    // Very subtle rainbow glow layer
+    val rainbowGlow = Brush.linearGradient(
+        colors = listOf(
+            Color(0xFFFF1744).copy(alpha = 0.05f),
+            Color(0xFF00E5FF).copy(alpha = 0.05f),
+            Color(0xFFD500F9).copy(alpha = 0.05f)
+        )
     )
+
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = if (darkTheme) Color(0xFF111318) else Color(0xFFFDFDFF)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(backgroundBrush)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(rainbowGlow)
+            )
+            BaseTheme(
+                colorScheme = colorScheme,
+                content = content
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
