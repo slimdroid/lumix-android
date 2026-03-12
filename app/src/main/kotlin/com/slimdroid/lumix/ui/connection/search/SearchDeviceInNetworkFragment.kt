@@ -1,45 +1,42 @@
 package com.slimdroid.lumix.ui.connection.search
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.slimdroid.lumix.R
-import com.slimdroid.lumix.databinding.FragmentSearchDeviceInNetworkBinding
+import com.slimdroid.lumix.theme.LumixTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchDeviceInNetworkFragment : Fragment(R.layout.fragment_search_device_in_network) {
+class SearchDeviceInNetworkFragment : Fragment() {
 
     private val viewModel: SearchDeviceInNetworkViewModel by viewModels()
 
-    private var _binding: FragmentSearchDeviceInNetworkBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initView(view)
-        setListeners()
-        setObservables()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
-    private fun initView(view: View) {
-        _binding = FragmentSearchDeviceInNetworkBinding.bind(view)
-    }
-
-    private fun setObservables() {
-        viewModel.apply {
-
-        }
-    }
-
-    private fun setListeners() {
-        binding.apply {
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = ComposeView(requireContext()).apply {
+        setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+        setContent {
+            val state by viewModel.uiState.collectAsState()
+            LumixTheme {
+                SearchDeviceInNetworkScreen(
+                    state = state,
+                    onDeviceSelected = { device ->
+                        viewModel.saveDevice(device)
+                    },
+                    onRefresh = {
+                        viewModel.startScanner()
+                    }
+                )
+            }
         }
     }
 

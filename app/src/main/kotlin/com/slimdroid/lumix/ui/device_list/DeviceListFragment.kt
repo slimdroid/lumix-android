@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
@@ -29,26 +30,28 @@ class DeviceListFragment : Fragment() {
         setContent {
             val state by viewModel.uiState.collectAsState()
             LumixTheme {
-                DeviceListScreen(
-                    state = state,
-                    onDeviceClick = { device ->
-                        val ipAddress = device.ipAddress
-                        val args = Bundle().apply {
-                            putString("ipAddress", ipAddress)
+                Surface {
+                    DeviceListScreen(
+                        state = state,
+                        onDeviceClick = { device ->
+                            val ipAddress = device.ipAddress
+                            val args = Bundle().apply {
+                                putString("ipAddress", ipAddress)
+                            }
+                            viewModel.stopScanner()
+                            findNavController().navigate(
+                                R.id.action_deviceListFragment_to_deviceFragment,
+                                args
+                            )
+                        },
+                        onStartScannerClick = {
+                            viewModel.startScanner()
+                        },
+                        onAddNewDeviceClick = {
+                            findNavController().navigate(R.id.action_deviceListFragment_to_connectionFragment2)
                         }
-                        viewModel.stopScanner()
-                        findNavController().navigate(
-                            R.id.action_deviceListFragment_to_deviceFragment,
-                            args
-                        )
-                    },
-                    onStartScannerClick = {
-                        viewModel.startScanner()
-                    },
-                    onAddNewDeviceClick = {
-                        findNavController().navigate(R.id.action_deviceListFragment_to_connectionFragment2)
-                    }
-                )
+                    )
+                }
             }
         }
     }

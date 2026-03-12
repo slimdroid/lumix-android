@@ -8,8 +8,7 @@
     <fragment
         android:id="@+id/deviceListFragment"
         android:name="com.slimdroid.lumix.ui.device_list.DeviceListFragment"
-        android:label="Devices"
-        tools:layout="@layout/fragment_device_list">
+        android:label="Devices">
 
         <action
             android:id="@+id/action_deviceListFragment_to_deviceFragment"
