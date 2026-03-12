@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 interface DeviceRepository {
     fun getDevices(): Flow<List<LumixDevice>>
-    suspend fun updateDevice(device: LumixDevice)
+    suspend fun updateDevice(device: LumixDevice): Result<Unit>
 }
 
 @Module
@@ -27,7 +27,7 @@ class DeviceRepositoryImpl @Inject constructor(
             deviceList.map { device -> device.toExternalModel() }
         }
 
-    override suspend fun updateDevice(device: LumixDevice) {
+    override suspend fun updateDevice(device: LumixDevice) = runCatching {
         localDataSource.insertDevice(device.toEntity())
     }
 }
