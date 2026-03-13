@@ -1,7 +1,6 @@
 package com.slimdroid.lumix.ui.device_list
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -46,7 +45,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -60,6 +58,7 @@ import com.slimdroid.lumix.R
 import com.slimdroid.lumix.core.model.LumixDevice
 import com.slimdroid.lumix.theme.LumixTheme
 import com.slimdroid.lumix.ui.shape.RoundedPolygonShape
+import com.slimdroid.lumix.ui.shape.animatedBorder
 import kotlin.math.PI
 import kotlin.math.sin
 
@@ -198,19 +197,18 @@ internal fun HoneycombItem(
             RoundedPolygonShape(sides = 6, fillMaxSize = false, cornerRadius = CORNER_RADIUS)
         )
     }
-    val rainbowBrush = remember {
-        Brush.sweepGradient(
-            colors = listOf(
-                Color(0x80FF0000), // Red
-                Color(0x80FFA500), // Orange
-                Color(0x80FFFF00), // Yellow
-                Color(0x8000FF00), // Green
-                Color(0x8000FFFF), // Cyan
-                Color(0x800000FF), // Blue
-                Color(0x804B0082), // Indigo
-                Color(0x80EE82EE), // Violet
-                Color(0x80FF0000), // Red. Close the loop
-            )
+
+    val rainbowColors = remember {
+        listOf(
+            Color(0x80FF0000), // Red
+            Color(0x80FFA500), // Orange
+            Color(0x80FFFF00), // Yellow
+            Color(0x8000FF00), // Green
+            Color(0x8000FFFF), // Cyan
+            Color(0x800000FF), // Blue
+            Color(0x804B0082), // Indigo
+            Color(0x80EE82EE), // Violet
+            Color(0x80FF0000), // Red. Close the loop
         )
     }
 
@@ -224,7 +222,13 @@ internal fun HoneycombItem(
             )
             .size(hexagonSize)
             .clip(itemShape)
-            .border(ITEM_BORDER, rainbowBrush, itemShape)
+            .animatedBorder(
+                borderColors = rainbowColors,
+                backgroundColor = MaterialTheme.colorScheme.background,
+                shape = itemShape,
+                durationMillis = 4000,
+                borderWidth = ITEM_BORDER
+            )
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -234,12 +238,6 @@ internal fun HoneycombItem(
             Text(
                 text = device.macAddress, color = MaterialTheme.colorScheme.tertiary
             )
-//            Image(
-//                imageVector = getIcon(device.type),
-//                contentDescription = null,
-//                contentScale = ContentScale.Crop,
-//                modifier = Modifier.size(hexagonSize / 2)
-//            )
             Text(
                 text = device.ipAddress,
                 fontSize = 12.sp,
@@ -274,7 +272,6 @@ private fun DeviceListScreenPreview(
             )
         }
     }
-
 }
 
 @PreviewLightDark

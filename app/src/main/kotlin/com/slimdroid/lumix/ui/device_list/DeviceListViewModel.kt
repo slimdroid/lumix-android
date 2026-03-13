@@ -48,7 +48,7 @@ class DeviceListViewModel @Inject constructor(
                         .find { it.macAddress == device.macAddress }
                         ?.also { if (it != device) repository.updateDevice(it) }
                     device.copy(online = scannedDevice != null)
-                }
+                }.sortedBy { it.online }
             )
         }
     }.onEach {
