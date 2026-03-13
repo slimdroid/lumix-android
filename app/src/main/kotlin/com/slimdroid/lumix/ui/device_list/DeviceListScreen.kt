@@ -46,10 +46,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
@@ -198,6 +198,21 @@ internal fun HoneycombItem(
             RoundedPolygonShape(sides = 6, fillMaxSize = false, cornerRadius = CORNER_RADIUS)
         )
     }
+    val rainbowBrush = remember {
+        Brush.sweepGradient(
+            colors = listOf(
+                Color(0x80FF0000), // Red
+                Color(0x80FFA500), // Orange
+                Color(0x80FFFF00), // Yellow
+                Color(0x8000FF00), // Green
+                Color(0x8000FFFF), // Cyan
+                Color(0x800000FF), // Blue
+                Color(0x804B0082), // Indigo
+                Color(0x80EE82EE), // Violet
+                Color(0x80FF0000), // Red. Close the loop
+            )
+        )
+    }
 
     Card(
         onClick = { onItemClick(device) },
@@ -209,7 +224,7 @@ internal fun HoneycombItem(
             )
             .size(hexagonSize)
             .clip(itemShape)
-            .border(ITEM_BORDER, MaterialTheme.colorScheme.outline, itemShape)
+            .border(ITEM_BORDER, rainbowBrush, itemShape)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -226,7 +241,9 @@ internal fun HoneycombItem(
 //                modifier = Modifier.size(hexagonSize / 2)
 //            )
             Text(
-                text = device.ipAddress, fontSize = 12.sp, color = MaterialTheme.colorScheme.secondary
+                text = device.ipAddress,
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.secondary
             )
         }
     }
@@ -241,7 +258,7 @@ private fun itemOverlap(size: Dp): Dp {
 fun Double.toRadian(): Double = (this / 180 * PI)
 fun Double.toDegree(): Double = (this * 180 / PI)
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun DeviceListScreenPreview(
     @PreviewParameter(DeviceListPreviewProvider::class)
