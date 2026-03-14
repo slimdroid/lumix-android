@@ -73,7 +73,8 @@ internal fun DeviceListScreen(
     state: DeviceListUiState,
     onAddNewDeviceClick: () -> Unit,
     onStartScannerClick: () -> Unit,
-    onDeviceClick: (device: LumixDevice) -> Unit
+    onDeviceClick: (device: LumixDevice) -> Unit,
+    onDeleteClick: (device: LumixDevice) -> Unit
 ) {
     val pullToRefreshState = rememberPullToRefreshState()
     Scaffold(
@@ -130,9 +131,7 @@ internal fun DeviceListScreen(
                 }
 
                 is DeviceListUiState.Content -> {
-                    DeviceList(state.deviceList) { device ->
-                        onDeviceClick.invoke(device)
-                    }
+                    DeviceList(state.deviceList, onDeviceClick, onDeleteClick)
                     if (state.isProgress) {
                         LinearProgressIndicator(
                             modifier = Modifier
@@ -155,7 +154,8 @@ internal fun DeviceListScreen(
 @Composable
 private fun DeviceList(
     deviceList: List<LumixDevice>,
-    onItemClick: (device: LumixDevice) -> Unit
+    onItemClick: (device: LumixDevice) -> Unit,
+    onDeleteClick: (device: LumixDevice) -> Unit
 ) {
     BoxWithConstraints(
         modifier = Modifier.fillMaxWidth()
@@ -268,7 +268,8 @@ private fun DeviceListScreenPreview(
                 state = uiState,
                 onAddNewDeviceClick = {},
                 onStartScannerClick = {},
-                onDeviceClick = {}
+                onDeviceClick = {},
+                onDeleteClick = {}
             )
         }
     }

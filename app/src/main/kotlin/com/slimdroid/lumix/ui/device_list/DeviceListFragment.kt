@@ -49,6 +49,9 @@ class DeviceListFragment : Fragment() {
                         },
                         onAddNewDeviceClick = {
                             findNavController().navigate(R.id.action_deviceListFragment_to_connectionFragment2)
+                        },
+                        onDeleteClick = { device ->
+                            viewModel.deleteDevice(device)
                         }
                     )
                 }

@@ -15,6 +15,7 @@ interface DeviceRepository {
     fun getDevices(): Flow<List<LumixDevice>>
     suspend fun updateDevice(device: LumixDevice): Result<Unit>
     suspend fun saveDevice(device: LumixDevice): Result<Unit>
+    suspend fun removeDevice(device: LumixDevice): Result<Unit>
 }
 
 @Module
@@ -34,6 +35,10 @@ class DeviceRepositoryImpl @Inject constructor(
 
     override suspend fun saveDevice(device: LumixDevice) = runCatching {
         localDataSource.insertDevice(device.toEntity())
+    }
+
+    override suspend fun removeDevice(device: LumixDevice) = runCatching {
+        localDataSource.deleteDevice(device.toEntity())
     }
 
 }

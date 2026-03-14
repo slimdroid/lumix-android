@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DeviceListViewModel @Inject constructor(
-    repository: DeviceRepository,
+    private val repository: DeviceRepository,
     private val scanner: DeviceScanner
 ) : ViewModel() {
 
@@ -76,6 +76,12 @@ class DeviceListViewModel @Inject constructor(
     fun stopScanner() {
         isProgress.value = false
         scanner.stopScan()
+    }
+
+    fun deleteDevice(device: LumixDevice) {
+        viewModelScope.launch {
+            repository.removeDevice(device)
+        }
     }
 
 }
