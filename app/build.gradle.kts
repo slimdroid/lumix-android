@@ -42,6 +42,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.bluetooth)
     implementation(projects.core.scanner)
     implementation(projects.core.data)
 

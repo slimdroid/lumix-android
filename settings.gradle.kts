@@ -19,8 +19,10 @@ dependencyResolutionManagement {
 
 include(":app")
 include(
+    ":core:bluetooth",
     ":core:database",
     ":core:data",
     ":core:model",
-    ":core:scanner"
+    ":core:scanner",
+    ":core:wifi"
 )
