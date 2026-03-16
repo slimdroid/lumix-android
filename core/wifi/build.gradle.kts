@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -17,5 +19,12 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.model)
 
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+
+    // Hilt
+    implementation(libs.dagger.hilt)
+    ksp(libs.dagger.hilt.compiler)
 }

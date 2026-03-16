@@ -2,9 +2,12 @@ package com.slimdroid.lumix.core.bluetooth.di
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
+import android.bluetooth.le.BluetoothLeScanner
 import android.content.Context
 import com.slimdroid.lumix.core.bluetooth.connector.BleControlManager
 import com.slimdroid.lumix.core.bluetooth.connector.BleControlManagerImpl
+import com.slimdroid.lumix.core.bluetooth.scanner.BluetoothScanner
+import com.slimdroid.lumix.core.bluetooth.scanner.BluetoothScannerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -21,11 +24,19 @@ internal abstract class BluetoothModule {
     @Singleton
     abstract fun bindsBleControlManager(bleControlManagerImpl: BleControlManagerImpl): BleControlManager
 
+    @Binds
+    @Singleton
+    abstract fun bindsBluetoothScanner(bluetoothScannerImpl: BluetoothScannerImpl): BluetoothScanner
+
     companion object {
         @Provides
         @Singleton
         fun provideBluetoothAdapter(@ApplicationContext context: Context): BluetoothAdapter? =
             (context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter
-    }
 
+        @Provides
+        @Singleton
+        fun provideBluetoothLeScanner(adapter: BluetoothAdapter?): BluetoothLeScanner? =
+            adapter?.bluetoothLeScanner
+    }
 }

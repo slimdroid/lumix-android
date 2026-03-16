@@ -5,7 +5,11 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
-import android.bluetooth.le.*
+import android.bluetooth.le.BluetoothLeScanner
+import android.bluetooth.le.ScanCallback
+import android.bluetooth.le.ScanFilter
+import android.bluetooth.le.ScanResult
+import android.bluetooth.le.ScanSettings
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.CountDownTimer
@@ -20,7 +24,7 @@ import com.slimdroid.lumix.data.BleControlManager
 import com.slimdroid.lumix.utils.SingleEventLiveData
 import java.util.concurrent.TimeUnit
 
-private val SCAN_PERIOD_IN_MILLIS = TimeUnit.SECONDS.toMillis(30)
+private val SCAN_PERIOD_IN_MILLIS = TimeUnit.SECONDS.toMillis(10)
 
 class DeviceScannerViewModel(
     application: Application,

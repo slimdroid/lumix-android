@@ -11,7 +11,6 @@ import android.bluetooth.BluetoothProfile.STATE_DISCONNECTED
 import android.bluetooth.BluetoothProfile.STATE_DISCONNECTING
 import android.content.Context
 import android.os.Build
-import android.os.ParcelUuid
 import android.util.Log
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,7 +20,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 import java.util.UUID
 import javax.inject.Inject
 
-private val SERVICE_CONNECTION_UUID = UUID.fromString("459aa3b5-52c3-4d75-a64b-9cd76f65cfbb")
+internal val SERVICE_CONNECTION_UUID = UUID.fromString("459aa3b5-52c3-4d75-a64b-9cd76f65cfbb")
 private val CREDENTIALS_UUID = UUID.fromString("b9e70f80-d55e-4cd7-bec6-14be34590efc")
 private val RESPONSE_UUID = UUID.fromString("7048479a-23f2-4f5b-8113-e60e59294b5a")
 
@@ -210,14 +209,17 @@ class BleControlManagerImpl @Inject constructor(
                             Log.d(TAG, "onCharacteristicChanged: credentials accepted")
                             CredentialsResult.Success
                         }
+
                         RESPONSE_WRONG_CREDENTIALS -> {
                             Log.d(TAG, "onCharacteristicChanged: wrong credentials")
                             CredentialsResult.WrongPassword
                         }
+
                         RESPONSE_FAILURE -> {
                             Log.d(TAG, "onCharacteristicChanged: credentials failure")
                             CredentialsResult.Failure
                         }
+
                         else -> {
                             Log.d(TAG, "onCharacteristicChanged: unknown response")
                             CredentialsResult.Failure
@@ -235,8 +237,6 @@ class BleControlManagerImpl @Inject constructor(
 
     companion object {
         private const val TAG = "BleControlManager"
-
-        fun getFilterServiceUuid(): ParcelUuid = ParcelUuid(SERVICE_CONNECTION_UUID)
     }
 
 }
